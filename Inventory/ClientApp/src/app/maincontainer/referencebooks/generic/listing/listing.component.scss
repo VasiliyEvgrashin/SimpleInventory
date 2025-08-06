@@ -1,0 +1,27 @@
+.mat-column-hearingDate,
+.mat-column-companyName,
+.mat-column-firstName,
+.mat-column-dictType,
+.mat-column-lastName
+ {
+  width: 120px;
+  padding-right: 10px;
+}
+
+.mat-column-action,
+.mat-column-fineNum
+ {
+  width: 35px;
+  padding-right: 24px;
+}
+
+.mat-column-disposition,
+.mat-column-transactionType {
+  width: 200px;
+  padding-right: 24px;
+}
+
+.mat-column-companyName {
+  height: 100px;
+  width: 250px;
+}

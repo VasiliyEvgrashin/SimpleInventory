@@ -1,0 +1,32 @@
+.login__wrap{
+  width: calc(100vw);
+  max-width: 100%;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__form{
+  width: 100%;
+  max-width: 440px;
+  padding: 40px;
+
+}
+
+.login__title{
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.form__input{
+  width: 100%;
+  max-width: 100%;
+}
+
+.form__button{
+  width: 100%;
+  max-width: 100%;
+}

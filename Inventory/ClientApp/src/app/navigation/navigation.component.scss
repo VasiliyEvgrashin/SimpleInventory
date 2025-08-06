@@ -1,0 +1,66 @@
+
+
+.navigation-sidebar{
+  width: 260px;
+}
+
+.navigation-sidebar__logo-wrap{
+  padding: 30px 10px;
+  text-align: center;
+  & img{
+    max-width: 200px;
+  }
+}
+
+.navigation-sidebar__section{
+  padding: 0 10px;
+  margin-bottom: 60px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navigation-sidebar__title{
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+.navigation-sidebar__items{
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navigation-item{
+  width: 100%;
+  max-width: calc(90% - 6px);
+  padding: 15px 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all .2s linear;
+  color: rgba(0, 0, 0, 100%);
+  background-color: #FFFFFF;
+  position: relative;
+  margin: 3px;
+  border-radius: 8px;
+  &:hover, &.navigation-item_current{
+    color: var(--mat-sys-primary);
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    z-index: 1;
+  }
+}
+
+.navigation-item__icon{
+  margin-right: 10px;
+}
+
+.hr-dilimeter {
+  display: inline-block;
+  opacity: 0.3;
+  width: 100%;
+  border-bottom: 2px solid #EEEEEE22;
+}
+

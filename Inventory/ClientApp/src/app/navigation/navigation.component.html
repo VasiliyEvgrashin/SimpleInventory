@@ -1,0 +1,24 @@
+<div class="navigation-sidebar">
+  <div class="navigation-sidebar__logo-wrap">
+  </div>
+  <div class="navigation-sidebar__section">
+    <div class="navigation-sidebar__items">
+      <div *ngFor="let item of mainNavigationItems" class="navigation-sidebar__items">
+        <div class="hr-dilimeter">{{ item.key | uppercase }}</div>
+        <a
+          *ngFor="let it of item.items"
+          (click)="drawer?.toggle()"
+          [routerLink]="it.routeLink"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="navigation-item_current"
+          class="navigation-item"
+        >
+          <div class="navigation-item__icon">
+            <mat-icon>{{ it.icon }}</mat-icon>
+          </div>
+          <div class="navigation-item__title">{{ it.title }}</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

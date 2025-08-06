@@ -1,0 +1,19 @@
+<mat-drawer-container class="app__container" hasBackdrop="true" #drawer>
+  <mat-drawer #appNavigationSidebar mode="over">
+    <app-navigation #cmp [drawer]="appNavigationSidebar"></app-navigation>
+  </mat-drawer>
+  <mat-drawer-content>
+    <header>
+      <button
+        class="header__navigation"
+        (click)="appNavigationSidebar.toggle()"
+        mat-icon-button color="basic"
+        aria-label="Apps navigation button"
+        style="text-shadow: 1px 1px 2px black;"
+      >
+        <mat-icon class="header__navigation-icon">apps</mat-icon>
+      </button>
+    </header>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
