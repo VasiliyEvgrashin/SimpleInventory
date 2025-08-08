@@ -3,9 +3,9 @@ import { environment } from "../environments/environment";
 export class Constants {
   constructor() {}
 
-  static readonly clients_data_type_url: string = `${environment.apiUrl}/auth/signin`;
-  static readonly unitsofmeasurement_data_type_url: string = `${environment.apiUrl}/auth/signin`;
-  static readonly resources_data_type_url: string = `${environment.apiUrl}/auth/signin`;
+  static readonly clients_data_type_url: string = `${environment.apiUrl}/Client`;
+  static readonly unitsofmeasurement_data_type_url: string = `${environment.apiUrl}/UnitOfMeasurement`;
+  static readonly resources_data_type_url: string = `${environment.apiUrl}/Resource`;
 
 
 
