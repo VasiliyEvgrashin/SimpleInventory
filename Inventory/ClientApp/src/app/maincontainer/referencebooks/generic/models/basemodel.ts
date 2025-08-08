@@ -8,7 +8,9 @@ export class BaseModel {
   controls: any;
   definition: Definition[] = []
 
-  constructor() {
+  constructor(item: any) {
+    this.id = item.id;
+    this.name = item.name;
     this.controls = {
       name: new FormControl(this.name, Validators.required)
     };

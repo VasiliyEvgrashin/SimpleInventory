@@ -16,6 +16,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { TitleCaseExtendedPipe } from '../titlepipe';
+import { publishFacade } from '@angular/compiler';
 
 @Component({
   selector: 'app-listing',
@@ -35,7 +37,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatProgressBarModule,
     MatTableModule,
     MatMenuModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    TitleCaseExtendedPipe
   ],
   providers: [
     GetService,
@@ -67,11 +70,23 @@ export class ListingComponent implements OnInit {
     return typeof (item);
   }
 
+  getNonFunctionProperties(obj: any) {
+    const properties = [];
+    for (const key in obj) {
+      let t = typeof obj[key];
+      if (obj.hasOwnProperty(key) && t !== 'function' && t !== 'object') {
+        properties.push(key);
+      }
+    }
+    return properties;
+  }
+
   updateModel() {
     this.loading = true;
     this.service.getlist(this.mtype)
       .subscribe((response) => {
-        let array = Object.getOwnPropertyNames(response[0]);
+        let key = response[0];
+        let array = this.getNonFunctionProperties(key);
         this.dcolumns = [];
         this.displayedColumns = [];
         this.displayedColumns.push('action');

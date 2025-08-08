@@ -20,6 +20,7 @@ export const routes: Routes = [
       { path: 'shipments', component: ShipmentsComponent }
     ] },
     { path: 'referencebooks', component: ReferencebooksComponent, children: [
+      { path: '', redirectTo: 'clients', pathMatch: 'full' },
       { path: 'clients', component: ListingComponent, data: { mtype: Constants.clients_data_type } },
       { path: 'clients/:id/:entrytype', component: DetailComponent, data: { mtype: Constants.clients_data_type } },
       { path: 'unitsofmeasurement', component: ListingComponent, data: { mtype: Constants.unitsofmeasurement_data_type } },

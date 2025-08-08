@@ -4,6 +4,10 @@ import { BaseModel } from './basemodel';
 
 export class UnitsofmeasurementModel extends BaseModel implements IEditModel {
 
+  constructor(item: any) {
+    super(item);
+  }
+
   getControls(): {} {
     return this.controls;
   }

@@ -4,13 +4,13 @@
   </div>
   <div class="component-header__navigation">
     <button mat-button class="btn btn-primary" [routerLink]="['new', mtype]">
-      <mat-icon>playlist_add</mat-icon> New
+      <mat-icon>playlist_add</mat-icon> Добавить
     </button>
   </div>
 </div>
 <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 <mat-form-field class="input-group" appearance="fill">
-  <mat-label>Filter</mat-label>
+  <mat-label>Фильтр</mat-label>
   <input
     matInput
     (keyup)="applyFilter($event)"
@@ -21,7 +21,7 @@
 <table *ngIf="!loading" mat-table [dataSource]="dataSource" fixedLayout="true" class="table__wrap">
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef class="table__header-column" style="width: 100px">
-      Action
+      Действие
     </th>
     <td mat-cell *matCellDef="let element" class="table__column"  style="width: 100px">
       <button
@@ -35,7 +35,7 @@
         <div>
           <a mat-button [routerLink]="[element[entryIDname], mtype]">
             <mat-icon>edit</mat-icon>
-            Edit
+            Редактировать
           </a>
         </div>
       </mat-menu>
@@ -47,7 +47,7 @@
     matColumnDef="{{ column }}"
   >
     <th mat-header-cell *matHeaderCellDef class="table__header-column">
-      {{ column }}
+      {{ column | titleCaseExtended }}
     </th>
     <td mat-cell *matCellDef="let element" class="table__column">
       <div *ngIf="(gettype(element[column]) == 'boolean'); then thenBlock else elseBlock"></div>
@@ -79,8 +79,4 @@
     class="table__row"
   ></tr>
 </table>
-<mat-paginator
-  [pageSizeOptions]="[12, 25, 50, 100]"
-  (page)="scrollPageToTop($event)">
-  aria-label="Select page of users"
-></mat-paginator>
+<mat-paginator [pageSizeOptions]="[12, 25, 50, 100]" (page)="scrollPageToTop($event)"></mat-paginator>
