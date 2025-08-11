@@ -22,6 +22,15 @@ export class TitleCaseExtendedPipe
         case 'address': {
           return 'Адрес';
         }
+        case 'number': {
+          return 'Номер';
+        }
+        case 'createdate': {
+          return 'Дата';
+        }
+        case 'items': {
+          return 'Детали';
+        }
         default: {
           return super.transform(value);
         }

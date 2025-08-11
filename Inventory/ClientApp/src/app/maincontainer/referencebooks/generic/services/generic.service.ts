@@ -7,7 +7,7 @@ import { UnitsofmeasurementModel } from '../models/unitsofmeasurementmodel';
 import { ResourcesModel } from '../models/resourcesmodel';
 
 @Injectable()
-export class GetService {
+export class GenericService {
 
   constructor(
     private httpClient: HttpClient
@@ -15,7 +15,7 @@ export class GetService {
 
   getlist(mtype: string | undefined): Observable<any> {
     switch (mtype) {
-      case Constants.clients_data_type: {
+      case Constants.clients_data_type_url: {
         return this
           .httpClient
           .get<any[]>(Constants.clients_data_type_url)
@@ -23,7 +23,7 @@ export class GetService {
             map((response) => response.map(item => new ClientsModel(item)))
           );
       }
-      case Constants.unitsofmeasurement_data_type: {
+      case Constants.unitsofmeasurement_data_type_url: {
         return this
           .httpClient
           .get<any[]>(Constants.unitsofmeasurement_data_type_url)
@@ -31,7 +31,7 @@ export class GetService {
             map((response) => response.map(item => new UnitsofmeasurementModel(item)))
           );
       }
-      case Constants.resources_data_type: {
+      case Constants.resources_data_type_url: {
         return this
           .httpClient
           .get<any[]>(Constants.resources_data_type_url)
@@ -41,5 +41,35 @@ export class GetService {
       }
     }
     return EMPTY;
+  }
+
+  fetchOne(id: number, mtype: string): Observable<any> {
+    return this.httpClient.get(
+      mtype + '/' + id
+    ).pipe(map((value) => {
+      switch (mtype) {
+        case Constants.clients_data_type_url: {
+          return new ClientsModel(value);
+        }
+        case Constants.unitsofmeasurement_data_type_url: {
+          return new UnitsofmeasurementModel(value);
+        }
+        case Constants.resources_data_type_url: {
+          return new ResourcesModel(value);
+        }
+      }
+      return value;
+    }));
+  }
+
+  put(rm: any, mtype: string): Observable<any> {
+    return this.httpClient.put(
+      mtype,
+      rm
+    );
+  }
+
+  post(rm: any, mtype: string): Observable<any> {
+    return this.httpClient.post(mtype, rm);
   }
 }

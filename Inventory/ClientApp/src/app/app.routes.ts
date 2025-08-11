@@ -21,12 +21,12 @@ export const routes: Routes = [
     ] },
     { path: 'referencebooks', component: ReferencebooksComponent, children: [
       { path: '', redirectTo: 'clients', pathMatch: 'full' },
-      { path: 'clients', component: ListingComponent, data: { mtype: Constants.clients_data_type } },
-      { path: 'clients/:id/:entrytype', component: DetailComponent, data: { mtype: Constants.clients_data_type } },
-      { path: 'unitsofmeasurement', component: ListingComponent, data: { mtype: Constants.unitsofmeasurement_data_type } },
-      { path: 'unitsofmeasurement/:id/:entrytype', component: DetailComponent, data: { mtype: Constants.unitsofmeasurement_data_type } },
-      { path: 'resources', component: ListingComponent, data: { mtype: Constants.resources_data_type } },
-      { path: 'resources/:id/:entrytype', component: DetailComponent, data: { mtype: Constants.resources_data_type } },
+      { path: 'clients', component: ListingComponent, data: { mtype: Constants.clients_data_type_url } },
+      { path: 'clients/:id', component: DetailComponent, data: { mtype: Constants.clients_data_type_url } },
+      { path: 'unitsofmeasurement', component: ListingComponent, data: { mtype: Constants.unitsofmeasurement_data_type_url } },
+      { path: 'unitsofmeasurement/:id', component: DetailComponent, data: { mtype: Constants.unitsofmeasurement_data_type_url } },
+      { path: 'resources', component: ListingComponent, data: { mtype: Constants.resources_data_type_url } },
+      { path: 'resources/:id', component: DetailComponent, data: { mtype: Constants.resources_data_type_url } },
     ] },
     { path: 'pnf', component: PageNotFoundComponent }
   ] },

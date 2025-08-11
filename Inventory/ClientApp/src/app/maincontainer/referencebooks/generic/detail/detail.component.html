@@ -1,0 +1,85 @@
+<div class="component-header">
+  <div class="component-header__title">
+    {{ title }}
+  </div>
+  <div class="component-header__navigation">
+    <button mat-button class="btn btn-primary" routerLink="../">
+      <mat-icon>undo</mat-icon> Back
+    </button>
+  </div>
+</div>
+<div class="panel">
+  <form
+    *ngIf="form"
+    class="example-form"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="row">
+      <div class="column column-2" *ngFor="let mm of modelMeta">
+        <ng-template [ngIf]="mm.dtype === 'DateTime'">
+          <mat-form-field appearance="fill"
+                          style="width: 100%;">
+            <mat-label>{{ mm.name | titleCaseExtended }}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              placeholder="{{ mm.name | titleCaseExtended }}"
+              value="{{ model[mm.name] }}"
+              formControlName="{{ mm.name }}"
+              style="width: 100%;"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.controls[mm.name]?.errors?.['forbiddenDate']">Date Not Unique</mat-error>
+          </mat-form-field>
+        </ng-template>
+        <ng-template [ngIf]="mm.dtype === 'Comment'">
+          <mat-form-field class="input-group" appearance="fill">
+            <mat-label>{{ mm.name | titleCaseExtended }}</mat-label>
+            <textarea
+              matInput
+              rows="6"
+              placeholder="{{ mm.name | titleCaseExtended }}"
+              formControlName="{{ mm.name }}"
+              >{{ model[mm.name] }}</textarea
+            >
+          </mat-form-field>
+        </ng-template>
+        <ng-template [ngIf]="mm.dtype === 'Input'">
+          <mat-form-field class="input-group" appearance="fill">
+            <mat-label>{{ mm.name | titleCaseExtended }}</mat-label>
+            <input
+              matInput
+              placeholder="{{ mm.name | titleCaseExtended }}"
+              value="{{ model[mm.name] }}"
+              formControlName="{{ mm.name }}"
+            />
+            <mat-error *ngIf="form.controls[mm.name]?.errors?.['required']">Please enter the correct data</mat-error>
+
+          </mat-form-field>
+        </ng-template>
+        <ng-template [ngIf]="mm.dtype === 'CheckBox'">
+            <mat-checkbox
+              formControlName="{{ mm.name }}"
+              class="violation__checkbox"
+              [checked]="model[mm.name]"
+              >{{ mm.name | titleCaseExtended }}</mat-checkbox
+            >
+        </ng-template>
+      </div>
+    </div>
+    <button
+      mat-raised-button
+      class="form__button btn btn-accent"
+      type="submit"
+      [disabled]="!(form?.valid)"
+    >
+      Save
+    </button>
+  </form>
+</div>

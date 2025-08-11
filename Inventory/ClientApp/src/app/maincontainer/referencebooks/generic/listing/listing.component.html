@@ -1,9 +1,6 @@
 <div class="component-header">
-  <div class="component-header__title">
-    {{ title }}
-  </div>
   <div class="component-header__navigation">
-    <button mat-button class="btn btn-primary" [routerLink]="['new', mtype]">
+    <button mat-button class="btn btn-primary" [routerLink]="[0]">
       <mat-icon>playlist_add</mat-icon> Добавить
     </button>
   </div>
@@ -33,7 +30,7 @@
       </button>
       <mat-menu #menu="matMenu">
         <div>
-          <a mat-button [routerLink]="[element[entryIDname], mtype]">
+          <a mat-button [routerLink]="[element[entryIDname]]">
             <mat-icon>edit</mat-icon>
             Редактировать
           </a>

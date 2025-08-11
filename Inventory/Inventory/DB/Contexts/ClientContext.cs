@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Inventory.DB.References;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.DB.Contexts
 {

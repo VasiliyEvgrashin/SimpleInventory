@@ -7,5 +7,7 @@
         public int resourceid { get; set; }
         public int unitofmeasurementid { get; set; }
         public int count { get; set; }
+
+        public Receipt Receipt { get; set; }
     }
 }

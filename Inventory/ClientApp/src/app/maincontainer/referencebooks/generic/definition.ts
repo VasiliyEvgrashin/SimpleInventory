@@ -1,4 +1,4 @@
 export class Definition {
-  name: string | undefined;
+  name: string = '';
   dtype: string | undefined;
 }

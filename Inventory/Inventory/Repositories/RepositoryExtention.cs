@@ -1,5 +1,6 @@
 ﻿using Inventory.DB;
 using Inventory.DB.Contexts;
+using Inventory.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Repositories
@@ -21,10 +22,19 @@ namespace Inventory.Repositories
             builder.Services.AddDbContextFactory<ResourceContext>(options =>
                 options.UseSqlServer(connectionStringInventory)
                 );
-            
-            builder.Services.AddScoped<IFactoryProvider, FactoryProvider>();
-            builder.Services.AddScoped<IRepository, Repository>();
+            builder.Services.AddDbContextFactory<ReceiptContext>(options =>
+                options.UseSqlServer(connectionStringInventory)
+                );
             return builder;
+        }
+
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IFactoryProvider, FactoryProvider>();
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IListReferenceRepository, ListReferenceRepository>();
+            services.AddScoped<IRptRepository, RptRepository>();
+            return services;
         }
 
         public static WebApplication InitDefaultContext(this WebApplication app)

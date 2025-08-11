@@ -5,7 +5,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { ActivatedRoute, Data, RouterModule } from '@angular/router';
-import { GetService } from '../services/getservice';
+import { GenericService } from '../services/generic.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -17,7 +17,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { TitleCaseExtendedPipe } from '../titlepipe';
-import { publishFacade } from '@angular/compiler';
 
 @Component({
   selector: 'app-listing',
@@ -41,12 +40,11 @@ import { publishFacade } from '@angular/compiler';
     TitleCaseExtendedPipe
   ],
   providers: [
-    GetService,
+    GenericService,
     DatePipe
   ]
 })
 export class ListingComponent implements OnInit {
-  public title: string | undefined;
   public mtype: string | undefined;
   public entryIDname: string = '';
   public loading = true;
@@ -61,7 +59,7 @@ export class ListingComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public service: GetService,
+    public service: GenericService,
     public dialog: MatDialog,
     public datepipe: DatePipe
   ) { }
@@ -85,6 +83,9 @@ export class ListingComponent implements OnInit {
     this.loading = true;
     this.service.getlist(this.mtype)
       .subscribe((response) => {
+        if (!response) {
+          return;
+        }
         let key = response[0];
         let array = this.getNonFunctionProperties(key);
         this.dcolumns = [];
@@ -107,7 +108,6 @@ export class ListingComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe((value: Data) => {
-      this.title = value['title'];
       this.mtype = value['mtype'];
       this.updateModel();
     });

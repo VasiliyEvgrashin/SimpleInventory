@@ -1,12 +1,13 @@
-﻿using Inventory.DB;
-using Inventory.Repositories;
+﻿using Inventory.Core;
+using Inventory.DB.References;
+using Inventory.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : GenericCrudController<Client>
+    public class ClientController : GenericCrud<Client>
     {
         public ClientController(IRepository repository)
             : base(repository)
@@ -16,7 +17,7 @@ namespace Inventory.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UnitOfMeasurementController : GenericCrudController<UnitOfMeasurement>
+    public class UnitOfMeasurementController : GenericCrud<UnitOfMeasurement>
     {
         public UnitOfMeasurementController(IRepository repository)
             : base(repository)
@@ -26,7 +27,7 @@ namespace Inventory.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class ResourceController : GenericCrudController<Resource>
+    public class ResourceController : GenericCrud<Resource>
     {
         public ResourceController(IRepository repository)
             : base(repository)
