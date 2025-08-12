@@ -9,14 +9,16 @@ import { ReferencebooksComponent } from './maincontainer/referencebooks/referenc
 import { ListingComponent } from './maincontainer/referencebooks/generic/listing/listing.component';
 import { Constants } from './constants';
 import { DetailComponent } from './maincontainer/referencebooks/generic/detail/detail.component';
+import { ReceiptFormComponent } from './maincontainer/warehouse/receipts/receiptform/receiptform.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'main', pathMatch: 'full' },
+  { path: '', redirectTo: 'main/warehouse/balance', pathMatch: 'full' },
   { path: 'main', component: MainContainerComponent, children: [
     { path: 'warehouse', component: WarehouseComponent, children: [
       { path: '', redirectTo: 'balance', pathMatch: 'full' },
       { path: 'balance', component: BalanceComponent },
       { path: 'receipts', component: ReceiptsComponent },
+      { path: 'receipts/:id', component: ReceiptFormComponent },
       { path: 'shipments', component: ShipmentsComponent }
     ] },
     { path: 'referencebooks', component: ReferencebooksComponent, children: [

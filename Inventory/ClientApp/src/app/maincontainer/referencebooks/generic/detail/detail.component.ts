@@ -43,7 +43,6 @@ import { MatButtonModule } from '@angular/material/button';
 export class DetailComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   boomer: boolean = false;
-  public title = 'Form';
   model: any;
   modelMeta: Definition[] = [];
   id: number = 0;

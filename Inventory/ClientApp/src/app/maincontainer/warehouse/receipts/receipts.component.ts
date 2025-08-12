@@ -21,19 +21,7 @@ import { ReceiptsService } from "./receipts.service";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
 import { GenericService } from "../../referencebooks/generic/services/generic.service";
-import { Constants } from "../../../constants";
-
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD.MM.YYYY',
-  },
-  display: {
-    dateInput: 'DD.MM.YYYY',
-    monthYearLabel: 'MMMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { Constants, MY_DATE_FORMATS } from "../../../constants";
 
 @Component({
   selector: 'app-receipts',
