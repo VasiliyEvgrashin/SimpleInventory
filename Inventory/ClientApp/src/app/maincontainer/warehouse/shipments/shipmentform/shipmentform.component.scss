@@ -1,0 +1,36 @@
+.component-header{
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 15px;
+  @media screen and (max-width: 1280px){
+    flex-direction: column;
+  }
+}
+
+.component-header__navigation{
+  display: flex;
+  align-content: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.component-header__title{
+  font-weight: 600;
+  font-size: 21px;
+  text-transform: uppercase;
+  align-self: center;
+  @media screen and (max-width: 1280px){
+    margin-bottom: 25px;
+  }
+}
+
+.input-group {
+  margin: 5px;
+}
+
+mat-slide-toggle {
+  margin: 5px 20px;
+}

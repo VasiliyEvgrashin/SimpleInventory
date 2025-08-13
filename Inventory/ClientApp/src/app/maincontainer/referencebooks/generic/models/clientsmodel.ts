@@ -5,12 +5,12 @@ import { BaseModel } from './basemodel';
 import { Constants } from '../../../../constants';
 
 export class ClientsModel extends BaseModel implements IEditModel {
-  address: string | undefined;
+  address: string = '';
 
   constructor(item: any) {
     super(item);
     if (item) {
-      this.address = item.address
+      this.address = item.address ? item.address : '';
     }
   }
 

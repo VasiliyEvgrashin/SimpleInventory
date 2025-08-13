@@ -31,6 +31,12 @@ export class TitleCaseExtendedPipe
         case 'items': {
           return 'Детали';
         }
+        case 'client': {
+          return 'Клиент';
+        }
+        case 'issign': {
+          return 'Подписан';
+        }
         default: {
           return super.transform(value);
         }

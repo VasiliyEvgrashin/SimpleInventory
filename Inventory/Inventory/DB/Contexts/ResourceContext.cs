@@ -10,6 +10,7 @@ namespace Inventory.DB.Contexts
         public ResourceContext(DbContextOptions<ResourceContext> options)
            : base(options)
         {
+            ChangeTracker.LazyLoadingEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

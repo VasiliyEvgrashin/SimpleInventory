@@ -2,7 +2,7 @@
 
 namespace Inventory.Repositories.Interfaces
 {
-    public interface IRptRepository
+    public interface IReceiptRepository
     {
         Task<IEnumerable<ReceiptListModel>> Get(DateTime datefrom, DateTime dateto);
         Task<ReceiptEditModel> Get(int id);

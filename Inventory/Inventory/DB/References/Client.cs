@@ -6,7 +6,7 @@
         public int id { get; set; }
         public string name { get; set; }
         public bool isactive { get; set; }
-        public string address { get; set; }
+        public string? address { get; set; }
 
         public override BaseReference Update(BaseReference source)
         {

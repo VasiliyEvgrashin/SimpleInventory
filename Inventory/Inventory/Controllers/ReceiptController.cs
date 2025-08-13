@@ -8,9 +8,9 @@ namespace Inventory.Controllers
     [ApiController]
     public class ReceiptController : ControllerBase
     {
-        IRptRepository _repository;
+        IReceiptRepository _repository;
 
-        public ReceiptController(IRptRepository repository)
+        public ReceiptController(IReceiptRepository repository)
         {
             _repository = repository;
         }

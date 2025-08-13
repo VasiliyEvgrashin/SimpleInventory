@@ -11,10 +11,13 @@ namespace Inventory.DB.Contexts
         public DbSet<Resource> Resource { get; set; }
         public DbSet<Receipt> Receipt { get; set; }
         public DbSet<ResReceipt> ResReceipt { get; set; }
+        public DbSet<Shipment> Shipment { get; set; }
+        public DbSet<ResShipment> ResShipment { get; set; }
 
         public DefaultContext(DbContextOptions<DefaultContext> options)
            : base(options)
         {
+            ChangeTracker.LazyLoadingEnabled = false;
             nvarchar = $"nvarchar({Constants.MAX_FIELD_LENGTH})";
         }
 
@@ -26,7 +29,7 @@ namespace Inventory.DB.Contexts
                 entity.HasKey(e => e.id);
                 entity.Property(e => e.id).ValueGeneratedOnAdd();
                 entity.Property(e => e.name).HasColumnType(nvarchar);
-                entity.Property(e => e.address).HasColumnType(nvarchar);
+                entity.Property(e => e.address).HasColumnType(nvarchar).IsRequired(false);
             });
 
             modelBuilder.Entity<UnitOfMeasurement>(entity =>
@@ -61,6 +64,24 @@ namespace Inventory.DB.Contexts
                 entity.HasOne(e => e.Receipt)
                     .WithMany(e => e.ResReceipt)
                     .HasForeignKey(e => e.receiptid);
+            });
+
+            modelBuilder.Entity<Shipment>(entity =>
+            {
+                entity.ToTable("Shipment");
+                entity.HasKey(e => e.id);
+                entity.Property(e => e.id).ValueGeneratedOnAdd();
+                entity.Property(e => e.number).HasColumnType(nvarchar);
+            });
+
+            modelBuilder.Entity<ResShipment>(entity =>
+            {
+                entity.ToTable("ResShipment");
+                entity.HasKey(e => e.id);
+                entity.Property(e => e.id).ValueGeneratedOnAdd();
+                entity.HasOne(e => e.Shipment)
+                    .WithMany(e => e.ResShipment)
+                    .HasForeignKey(e => e.shipmentid);
             });
         }
     }

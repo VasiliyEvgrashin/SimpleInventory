@@ -10,6 +10,7 @@ import { ListingComponent } from './maincontainer/referencebooks/generic/listing
 import { Constants } from './constants';
 import { DetailComponent } from './maincontainer/referencebooks/generic/detail/detail.component';
 import { ReceiptFormComponent } from './maincontainer/warehouse/receipts/receiptform/receiptform.component';
+import { ShipmentFormComponent } from './maincontainer/warehouse/shipments/shipmentform/shipmentform.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'main/warehouse/balance', pathMatch: 'full' },
@@ -19,7 +20,8 @@ export const routes: Routes = [
       { path: 'balance', component: BalanceComponent },
       { path: 'receipts', component: ReceiptsComponent },
       { path: 'receipts/:id', component: ReceiptFormComponent },
-      { path: 'shipments', component: ShipmentsComponent }
+      { path: 'shipments', component: ShipmentsComponent },
+      { path: 'shipments/:id', component: ShipmentFormComponent }
     ] },
     { path: 'referencebooks', component: ReferencebooksComponent, children: [
       { path: '', redirectTo: 'clients', pathMatch: 'full' },

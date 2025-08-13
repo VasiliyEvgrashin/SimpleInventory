@@ -68,11 +68,11 @@ export class ListingComponent implements OnInit {
     return typeof (item);
   }
 
-  getNonFunctionProperties(obj: any) {
+  getNonFunctionProperties(obj: any) : any[] {
     const properties = [];
     for (const key in obj) {
       let t = typeof obj[key];
-      if (obj.hasOwnProperty(key) && t !== 'function' && t !== 'object') {
+      if (obj.hasOwnProperty(key) && t === 'string' || t === 'number') {
         properties.push(key);
       }
     }

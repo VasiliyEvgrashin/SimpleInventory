@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Repositories
 {
-    public class RptRepository : IRptRepository
+    public class ReceiptRepository : IReceiptRepository
     {
         IDbContextFactory<ReceiptContext> _fabric;
         IListReferenceRepository _listReferenceRepository;
 
-        public RptRepository(
+        public ReceiptRepository(
             IDbContextFactory<ReceiptContext> fabric,
             IListReferenceRepository listReferenceRepository
             )
@@ -60,27 +60,37 @@ namespace Inventory.Repositories
             }
         }
 
-        public async Task<ReceiptEditModel> UpSert(ReceiptEditModel model)
+        public async Task<ReceiptEditModel> UpSert(ReceiptEditModel source)
         {
-            Receipt? item = null;
             await using (ReceiptContext context = await _fabric.CreateDbContextAsync())
             {
-                item = await context
+                Receipt? exist = await context
                     .Receipt
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(f => f.id == model.id);
+                    .Include(i => i.ResReceipt)
+                    .FirstOrDefaultAsync(f => f.id == source.id);
+                if (exist == null)
+                {
+                    Receipt newitem = new Receipt(source);
+                    await context.Receipt.AddAsync(newitem);
+                    await context.SaveChangesAsync();
+                    return new ReceiptEditModel(newitem);
+                } else
+                {
+                    exist.UpdateFrom(source);
+                    context.Entry(exist).State = EntityState.Modified;
+                    IEnumerable<ResReceipt> insertitems = exist.ResReceipt.CheckInsert(source.items);
+                    exist.ResReceipt.UpdateItems(source.items);
+                    IEnumerable<ResReceipt> deleteitems = exist.ResReceipt.CheckDelete(source.items);
+                    foreach (ResReceipt item in insertitems) {
+                        exist.ResReceipt.Add(item);
+                    }
+                    foreach (ResReceipt item in deleteitems) {
+                        exist.ResReceipt.Remove(item);
+                    }
+                    await context.SaveChangesAsync();
+                    return new ReceiptEditModel(exist);
+                }
             }
-            return item == null ? await Insert(model) : await Update(model);
-        }
-
-        async Task<ReceiptEditModel> Update(ReceiptEditModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<ReceiptEditModel> Insert(ReceiptEditModel model)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,7 +1,7 @@
 <div class="component-header">
   <div class="component-header__navigation">
     <div class="component-header__title">
-      Форма поступления
+      Форма отгрузки
     </div>
     <button mat-button class="btn btn-primary" routerLink="../">
       <mat-icon>undo</mat-icon> Назад
@@ -17,6 +17,13 @@
           <input matInput placeholder="Номер..." formControlName="number" />
           <mat-error *ngIf="myForm.controls['number']?.errors?.['required']">Номер обязательное поле</mat-error>
         </mat-form-field>
+        <mat-form-field>
+          <mat-label>Клиент</mat-label>
+          <mat-select formControlName="clientid">
+            <mat-option *ngFor="let n of clients" [value]="n.id">{{n.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="myForm.controls['clientid']?.errors?.['required']">Клиент обязательное поле</mat-error>
+        </mat-form-field>
         <mat-form-field class="input-group" appearance="fill">
           <mat-label>Дата</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="createdate" style="width: 100%;" />
@@ -27,6 +34,7 @@
       </div>
     </div>
     <button mat-raised-button (click)="addRow()">Добавить</button>
+    <mat-slide-toggle [disabled]="!(myForm?.valid)" formControlName="issign" (toggleChange)="checkbalance()">Подписан</mat-slide-toggle>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [formGroupName]="'items'">
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Actions </th>

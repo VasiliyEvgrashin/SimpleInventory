@@ -102,7 +102,7 @@ export class ReceiptsComponent implements OnInit {
   }
 
   initDS() {
-    this.service.getlist(this.dpipe.transform(this.datefrom, 'dd-MM-yyyy'), this.dpipe.transform(this.dateto, 'dd-MM-yyyy'))
+    this.service.getlist(this.dpipe.transform(this.datefrom, 'yyyy-MM-dd'), this.dpipe.transform(this.dateto, 'yyyy-MM-dd'))
       .subscribe((response) => {
         this.container = response;
         this.etalon = JSON.parse(JSON.stringify(response));

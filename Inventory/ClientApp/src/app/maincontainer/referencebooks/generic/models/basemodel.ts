@@ -3,8 +3,8 @@ import { Definition } from '../definition';
 import { Constants } from '../../../../constants';
 
 export class BaseModel {
-  id: number | undefined;
-  name: string | undefined;
+  id: number = 0;
+  name: string = '';
 
   controls: any;
   definition: Definition[] = []

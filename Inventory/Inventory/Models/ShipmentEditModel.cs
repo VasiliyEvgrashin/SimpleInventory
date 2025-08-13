@@ -2,15 +2,17 @@
 
 namespace Inventory.Models
 {
-    public class ReceiptEditModel
+    public class ShipmentEditModel
     {
         public int id { get; set; }
         public string number { get; set; }
         public DateTime createdate { get; set; }
-        public IList<ReceiptEditItemModel> items { get; set; } = new List<ReceiptEditItemModel>();
+        public int clientid { get; set; }
+        public bool issign { get; set; }
+        public IList<ShipmentEditItemModel> items { get; set; } = new List<ShipmentEditItemModel>();
 
-        public ReceiptEditModel() { }
-        public ReceiptEditModel(Receipt item)
+        public ShipmentEditModel() { }
+        public ShipmentEditModel(Shipment item)
         {
             if (item == null)
             {
@@ -19,22 +21,24 @@ namespace Inventory.Models
             id = item.id;
             number = item.number;
             createdate = item.createdate;
-            foreach(var it in item.ResReceipt)
+            clientid = item.clientid;
+            issign = item.issign;
+            foreach (var it in item.ResShipment)
             {
-                items.Add(new ReceiptEditItemModel(it));
+                items.Add(new ShipmentEditItemModel(it));
             }
         }
     }
 
-    public class ReceiptEditItemModel
+    public class ShipmentEditItemModel
     {
         public int id { get; set; }
         public int resourceid { get; set; }
         public int unitofmeasurementid { get; set; }
         public int count { get; set; }
 
-        public ReceiptEditItemModel() { }
-        public ReceiptEditItemModel(ResReceipt it)
+        public ShipmentEditItemModel() { }
+        public ShipmentEditItemModel(ResShipment it)
         {
             id = it.id;
             resourceid = it.resourceid;

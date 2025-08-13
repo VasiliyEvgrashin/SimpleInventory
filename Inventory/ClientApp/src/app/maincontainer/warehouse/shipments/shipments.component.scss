@@ -1,0 +1,84 @@
+.mat-column-violation, .mat-column-courtCostV, .mat-column-hearingDate, .mat-column-ticket, .mat-column-action, .mat-column-case, .mat-column-pin, .mat-column-disposition, .mat-column-defendant, .mat-column-address, .mat-column-phone, .mat-column-fine, .mat-column-pending, .mat-column-due, .mat-column-paid {
+  border-right: 1px solid black;
+  line-height: 16px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+td.mat-column-defendant{
+  text-transform: uppercase;
+}
+
+.table__column{
+  font-weight: 400;
+}
+
+.mat-menu-item {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  .mat-icon {
+    margin-right: 0;
+  }
+}
+
+.mat-column-ticket {
+  width: 32px;
+}
+
+.mat-column-ticket, .mat-column-action, .mat-column-phone, .mat-column-fine, .mat-column-pending, .mat-column-due, .mat-column-paid, .mat-column-case, .mat-column-pin, .mat-column-disposition, .mat-column-defendant, .mat-column-address {
+  padding: 0 5px;
+}
+
+.mat-column-action, .mat-column-phone, .mat-column-fine, .mat-column-pending, .mat-column-due, .mat-column-paid {
+  width: 32px;
+}
+
+.mat-column-case, .mat-column-pin, .mat-column-disposition {
+  width: 120px;
+}
+
+.mat-column-defendant, .mat-column-violation {
+  width: 200px;
+}
+
+.radio-group .input__radio{
+  margin-right: 15px;
+}
+.ccontainer {
+  width: 100%;
+
+  .mffirst {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .input-group {
+      width: 32%;
+    }
+    .input-group-m {
+      width: 19%;
+    }
+  }
+
+  .mffirstadd {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .input-group {
+      width: 29%;
+    }
+  }
+
+  .input__full-width {
+    opacity: 0;
+    height: 132px;
+    position: absolute;
+  }
+}
+
+mat-form-field {
+  margin:5px;
+  width: 15%;
+}
