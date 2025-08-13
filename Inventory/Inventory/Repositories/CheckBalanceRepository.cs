@@ -4,6 +4,7 @@ using Inventory.DB.Contexts;
 using Inventory.Models;
 using Inventory.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Inventory.Repositories
 {
@@ -66,6 +67,34 @@ namespace Inventory.Repositories
             return model
                 .items
                 .GroupBy(g => new BalanceCompositeKey(g.resourceid, g.unitofmeasurementid));
+        }
+
+        public async Task<IEnumerable<IGrouping<BalanceCompositeKey, ResReceipt>>> GetReceiptedResources(Expression<Func<ResReceipt, bool>> filter)
+        {
+            await using (ReceiptContext context = await _receiptfabric.CreateDbContextAsync())
+            {
+                return (await context
+                    .ResReceipt
+                    .Where(filter)
+                    .AsNoTracking()
+                    .ToListAsync())
+                    .GroupBy(g => new BalanceCompositeKey(g.resourceid, g.unitofmeasurementid));
+            }
+        }
+
+        public async Task<IEnumerable<IGrouping<BalanceCompositeKey, ResShipment>>> GetShippedResources(Expression<Func<ResShipment, bool>> filter)
+        {
+            await using (ShipmentContext shipmentcontext = await _shipmentfabric.CreateDbContextAsync())
+            {
+                return (await shipmentcontext
+                    .ResShipment
+                    .Where(filter)
+                    .Include(i => i.Shipment)
+                    .Where(w => w.Shipment.issign)
+                    .AsNoTracking()
+                    .ToListAsync())
+                .GroupBy(g => new BalanceCompositeKey(g.resourceid, g.unitofmeasurementid));
+            }
         }
     }
 }

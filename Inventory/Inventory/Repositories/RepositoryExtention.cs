@@ -43,6 +43,7 @@ namespace Inventory.Repositories
             services.AddScoped<ICheckBalanceHelper, CheckBalanceHelper>();
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
             services.AddScoped<IShipmentRepository, ShipmentRepository>();
+            services.AddScoped<IBalanceHelper, BalanceHelper>();
             return services;
         }
 

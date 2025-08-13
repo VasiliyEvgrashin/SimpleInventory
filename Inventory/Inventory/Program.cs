@@ -1,3 +1,4 @@
+using Inventory.MidleWare;
 using Inventory.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,7 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+app.UseCustomExceptionHandler();
 app.InitDefaultContext();
 app.UseSwagger();
 app.UseSwaggerUI();
