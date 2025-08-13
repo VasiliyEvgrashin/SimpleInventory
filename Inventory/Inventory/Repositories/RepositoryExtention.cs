@@ -36,6 +36,7 @@ namespace Inventory.Repositories
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddScoped<IExpressionHelper, ExpressionHelper>();
             services.AddScoped<IFactoryProvider, FactoryProvider>();
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IListReferenceRepository, ListReferenceRepository>();
@@ -44,6 +45,7 @@ namespace Inventory.Repositories
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
             services.AddScoped<IShipmentRepository, ShipmentRepository>();
             services.AddScoped<IBalanceHelper, BalanceHelper>();
+            services.AddScoped<ICheckUniqRepository, CheckUniqRepository>();
             return services;
         }
 

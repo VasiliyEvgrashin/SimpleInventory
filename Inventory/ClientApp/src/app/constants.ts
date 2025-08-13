@@ -23,4 +23,6 @@ export class Constants {
   static readonly receipt_url: string = `${environment.apiUrl}/Receipt`;
   static readonly shipment_url: string = `${environment.apiUrl}/Shipment`;
   static readonly balance_url: string = `${environment.apiUrl}/Balance`;
+
+  static readonly checkunic_url: string = `${environment.apiUrl}/CheckUniq`;
 }

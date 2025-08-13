@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -9,7 +9,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, map, of } from "rxjs";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
 import { Constants, MY_DATE_FORMATS } from "../../../../constants";
@@ -18,8 +18,23 @@ import { GenericService } from "../../../referencebooks/generic/services/generic
 import { MatSelectModule } from "@angular/material/select";
 import { ShipmentEditService } from "./shipmentedit.service";
 import { ShipmentEditItemModel, ShipmentEditModel } from "./shipmenteditmodel";
-import { MatSliderModule } from "@angular/material/slider";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { CheckUniqService } from "../../../checkuniq.service";
+
+export function UniqueValidator(service: CheckUniqService, original: string): AsyncValidatorFn {
+  return (control: AbstractControl) => {
+    let value = control.value;
+    if (value === original) {
+      return of(null);
+    } else {
+      return service.checkShipment(value).pipe(
+        map((result: boolean) => {
+          return result ? null : { notuniq: { value: control.value } };
+        })
+      );
+    }
+  };
+}
 
 @Component({
   selector: 'app-shipmentform',
@@ -47,7 +62,8 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
     { provide: MAT_DATE_LOCALE, useValue: 'ru' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    GenericService
+    GenericService,
+    CheckUniqService
   ]
 })
 export class ShipmentFormComponent implements OnInit {
@@ -67,7 +83,8 @@ export class ShipmentFormComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private service: ShipmentEditService,
-    private gservice: GenericService
+    private gservice: GenericService,
+    private uniqservice: CheckUniqService
   ) {
 
   }
@@ -100,7 +117,7 @@ export class ShipmentFormComponent implements OnInit {
   fillForm(value: ShipmentEditModel) {
     this.myForm = this.fb.group({
       id: value.id,
-      number: [value.number, Validators.required],
+      number: [value.number, Validators.required, UniqueValidator(this.uniqservice, value.number)],
       createdate: [value.createdate, Validators.required],
       clientid: [value.clientid, Validators.required],
       issign: [value.issign],

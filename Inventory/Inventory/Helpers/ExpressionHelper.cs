@@ -1,12 +1,13 @@
-﻿using Inventory.Models;
+﻿using Inventory.Helpers.Interfaces;
+using Inventory.Models;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Inventory.Helpers
 {
-    public class ExpressionHelper
+    public class ExpressionHelper : IExpressionHelper
     {
-        static Expression<Func<T, bool>> CombineAnd<T>(params Expression<Func<T, bool>>[] predicates)
+        Expression<Func<T, bool>> CombineAnd<T>(params Expression<Func<T, bool>>[] predicates)
         {
             if (predicates == null || predicates.Length == 0)
             {
@@ -21,7 +22,7 @@ namespace Inventory.Helpers
             return result;
         }
 
-        static MethodInfo GetQueryableContainsMethodInfo()
+        MethodInfo GetQueryableContainsMethodInfo()
         {
             return typeof(Enumerable)
             .GetMethods(BindingFlags.Static | BindingFlags.Public)
@@ -31,7 +32,7 @@ namespace Inventory.Helpers
         }
 
 
-        static Expression<Func<T, bool>> CreateFilter<T>(IList<int> list, string par)
+        Expression<Func<T, bool>> CreateFilter<T>(IList<int> list, string par)
         {
             ParameterExpression parameter = Expression.Parameter(typeof(T), "x");
             MemberExpression property = Expression.PropertyOrField(parameter, par);
@@ -42,7 +43,7 @@ namespace Inventory.Helpers
             return lambda;
         }
 
-        public static Expression<Func<T, bool>> GetFilter<T>(BalanceFilter filter) => filter switch
+        public Expression<Func<T, bool>> GetFilter<T>(BalanceFilter filter) => filter switch
         {
             { resources: IList<int> { Count: 0 }, units: IList<int> { Count: > 0 } } => CreateFilter<T>(filter.units, "unitofmeasurementid"),
             { resources: IList<int> { Count: > 0 }, units: IList<int> { Count: 0 } } => CreateFilter<T>(filter.resources, "resourceid"),

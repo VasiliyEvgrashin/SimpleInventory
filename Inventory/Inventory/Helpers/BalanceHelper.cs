@@ -4,27 +4,29 @@ using Inventory.DB.References;
 using Inventory.Helpers.Interfaces;
 using Inventory.Models;
 using Inventory.Repositories.Interfaces;
-using System.Resources;
 
 namespace Inventory.Helpers
 {
     public class BalanceHelper : IBalanceHelper
     {
+        IExpressionHelper _expressionHelper;
         ICheckBalanceRepository _checkBalanceRepository;
         IListReferenceRepository _listReferenceRepository;
 
         public BalanceHelper(
+            IExpressionHelper expressionHelper,
             ICheckBalanceRepository checkBalanceRepository,
             IListReferenceRepository listReferenceRepository)
         {
+            _expressionHelper = expressionHelper;
             _checkBalanceRepository = checkBalanceRepository;
             _listReferenceRepository = listReferenceRepository;
         }
 
         public async Task<IEnumerable<BalanceModel>> Get(BalanceFilter filter)
         {
-            var receipted = await _checkBalanceRepository.GetReceiptedResources(ExpressionHelper.GetFilter<ResReceipt>(filter));
-            var shipped = await _checkBalanceRepository.GetShippedResources(ExpressionHelper.GetFilter<ResShipment>(filter));
+            var receipted = await _checkBalanceRepository.GetReceiptedResources(_expressionHelper.GetFilter<ResReceipt>(filter));
+            var shipped = await _checkBalanceRepository.GetShippedResources(_expressionHelper.GetFilter<ResShipment>(filter));
             IEnumerable<BalanceComposite> joined = from g1 in receipted
                          join g2 in shipped on g1.Key equals g2.Key into gj
                          from subg2 in gj.DefaultIfEmpty()

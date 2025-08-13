@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -10,7 +10,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ReceiptEditService } from "./receiptedit.service";
-import { firstValueFrom } from "rxjs";
+import { EMPTY, firstValueFrom, map, of } from "rxjs";
 import { ReceiptEditItemModel, ReceiptEditModel } from "./receipteditmodel";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
@@ -18,6 +18,22 @@ import { Constants, MY_DATE_FORMATS } from "../../../../constants";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { GenericService } from "../../../referencebooks/generic/services/generic.service";
 import { MatSelectModule } from "@angular/material/select";
+import { CheckUniqService } from "../../../checkuniq.service";
+
+export function UniqueValidator(service: CheckUniqService, original: string): AsyncValidatorFn {
+  return (control: AbstractControl) => {
+    let value = control.value;
+    if (value === original) {
+      return of(null);
+    } else {
+      return service.checkReceipt(value).pipe(
+        map((result: boolean) => {
+          return result ? null : { notuniq: { value: control.value } };
+        })
+      );
+    }
+  };
+}
 
 @Component({
   selector: 'app-receiptform',
@@ -44,7 +60,8 @@ import { MatSelectModule } from "@angular/material/select";
     { provide: MAT_DATE_LOCALE, useValue: 'ru' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
-    GenericService
+    GenericService,
+    CheckUniqService
   ]
 })
 export class ReceiptFormComponent implements OnInit {
@@ -63,13 +80,14 @@ export class ReceiptFormComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private service: ReceiptEditService,
-    private gservice: GenericService
+    private gservice: GenericService,
+    private uniqservice: CheckUniqService
   ) {
 
   }
 
   async ngOnInit() {
-     Promise
+    Promise
       .all([
         await firstValueFrom(this.gservice.getlist(Constants.resources_data_type_url)),
         await firstValueFrom(this.gservice.getlist(Constants.unitsofmeasurement_data_type_url))])
@@ -93,7 +111,7 @@ export class ReceiptFormComponent implements OnInit {
   fillForm(value: ReceiptEditModel) {
     this.myForm = this.fb.group({
       id: value.id,
-      number: [value.number, Validators.required],
+      number: [value.number, Validators.required, UniqueValidator(this.uniqservice, value.number)],
       createdate: [value.createdate, Validators.required],
       items: this.fb.array([])
     });
@@ -106,13 +124,13 @@ export class ReceiptFormComponent implements OnInit {
     this.showform = true;
   }
 
-  fillrow(v: ReceiptEditItemModel) : any {
+  fillrow(v: ReceiptEditItemModel): any {
     return this.fb.group({
-        id: v.id,
-        resourceid: [v.resourceid, Validators.required],
-        unitofmeasurementid: [v.unitofmeasurementid, Validators.required],
-        count: [v.count, [Validators.required, Validators.max(99999), Validators.min(1)]],
-      });
+      id: v.id,
+      resourceid: [v.resourceid, Validators.required],
+      unitofmeasurementid: [v.unitofmeasurementid, Validators.required],
+      count: [v.count, [Validators.required, Validators.max(99999), Validators.min(1)]],
+    });
   }
 
   addRow() {
@@ -129,7 +147,7 @@ export class ReceiptFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.myForm.valid) {
+    if (this.myForm.valid) {
       this.service.upsert(this.myForm.value).subscribe((v) => {
         this.router.navigate(['../'], { relativeTo: this.route });
       });

@@ -16,6 +16,7 @@
           <mat-label>Номер</mat-label>
           <input matInput placeholder="Номер..." formControlName="number" />
           <mat-error *ngIf="myForm.controls['number']?.errors?.['required']">Номер обязательное поле</mat-error>
+          <mat-error *ngIf="myForm.controls['number']?.errors?.['notuniq']">Номер не уникален</mat-error>
         </mat-form-field>
         <mat-form-field class="input-group" appearance="fill">
           <mat-label>Дата</mat-label>
